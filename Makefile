@@ -1,5 +1,5 @@
 TARGET=./main.o
-SRC=main7.cpp
+SRC=main_4_3_queue_with_priority.cpp
 
 .PHONY: run clean
 

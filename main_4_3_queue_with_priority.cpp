@@ -59,6 +59,16 @@ class Heap {
 
     void pop() {
         // assert(!empty());
+        if (_size * 4 <= _capacity) {
+            _capacity = _size * 2;
+
+            T* new_data = new T[_capacity];
+            copy(_buf, _buf + _size, new_data);
+
+            delete[] _buf;
+            _buf = new_data;
+        }
+
         _buf[0] = _buf[_size - 1];
         --_size;
         if (!empty()) {
@@ -67,6 +77,16 @@ class Heap {
     }
 
     void push(const T& process) {
+        if (_size == _capacity) {
+            _capacity = std::max(_capacity * 2, size_t(1));
+
+            T* new_data = new T[_capacity];
+            copy(_buf, _buf + _size, new_data);
+
+            delete[] _buf;
+            _buf = new_data;
+        }
+
         _buf[_size++] = process;
         sift_up(_size - 1);
     }
@@ -140,7 +160,7 @@ int main() {
     cin >> n;
     Heap<Process<size_t, size_t> > heap(n);
     for (size_t i = 0; i < n; ++i) {
-        size_t priority = 0;
+        size_t priority = 0; 
         size_t worked_time = 0;
         cin >> priority >> worked_time;
         heap.push(Process<size_t, size_t>(priority, worked_time));
