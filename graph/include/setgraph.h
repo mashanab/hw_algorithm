@@ -1,28 +1,22 @@
-#ifndef SETGRAPH
-#define SETGRAPH
-
-#include "igraph.h"
+#pragma once
 
 #include <set>
 
+#include "igraph.h"
 
 class SetGraph : public IGraph {
-public:
-    explicit SetGraph(size_t verticesCount);
-    ~SetGraph() override = default;
+ public:
+    explicit SetGraph(const int &vertices_count);
+    explicit SetGraph(const IGraph &);
+    ~SetGraph() override=default;
 
-    explicit SetGraph(const IGraph&);
+    void add_edge(const int &from, const int &to) override;
 
-    void AddEdge(int from, int to) override;
+    int get_vertices_count() const override;
 
-    size_t VerticesCount() const override;
+    std::vector<int> get_next_vertices(const int &vertex) const override;
+    std::vector<int> get_prev_vertices(const int &vertex) const override;
 
-    std::vector<int> GetNextVertices(int vertex) const override;
-    std::vector<int> GetPrevVertices(int vertex) const override;
-
-private:
-    std::vector<std::set<int>> graph_;
+ private:
+    std::vector< std::set<int> > graph;
 };
-
-
-#endif //  SETGRAPH

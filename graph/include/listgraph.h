@@ -1,26 +1,20 @@
-#ifndef LISTGRAPH
-#define LISTGRAPH
+#pragma once
 
 #include "igraph.h"
 
-
 class ListGraph : public IGraph {
-public:
-    explicit ListGraph(size_t verticesCount);
-    ~ListGraph() override = default;
+ public:
+    explicit ListGraph(const int &vertices_count);
+    explicit ListGraph(const IGraph &);
+    ~ListGraph() override=default;
 
-    explicit ListGraph(const IGraph&);
+    void add_edge(const int &from, const int &to) override;
 
-    void AddEdge(int from, int to) override;
+    int get_vertices_count() const override;
 
-    size_t VerticesCount() const override;
+    std::vector<int> get_next_vertices(const int &vertex) const override;
+    std::vector<int> get_prev_vertices(const int &vertex) const override;
 
-    std::vector<int> GetNextVertices(int vertex) const override;
-    std::vector<int> GetPrevVertices(int vertex) const override;
-
-private:
-    std::vector<std::vector<int>> graph_;
+ private:
+    std::vector< std::vector<int> > graph;
 };
-
-
-#endif  // LISTGRAPH

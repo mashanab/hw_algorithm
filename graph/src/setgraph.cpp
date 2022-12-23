@@ -1,41 +1,41 @@
 #include "setgraph.h"
 
-SetGraph::SetGraph(size_t verticesCount)
-        : graph_(verticesCount, std::set<int>()) {}
+SetGraph::SetGraph(const int &vertices_count)
+: graph(vertices_count, std::set<int>()) {}
 
-SetGraph::SetGraph(const IGraph &graph)
-        : SetGraph(graph.VerticesCount()) {
-    for (int i = 0; i < graph_.size(); ++i) {
-        std::vector<int> row = graph.GetNextVertices(i);
-        for (int j : row) {
-            graph_[i].insert(j);
+SetGraph::SetGraph(const IGraph &igraph)
+: SetGraph(igraph.get_vertices_count()) {
+    for (int vertice = 0; vertice < graph.size(); ++vertice) {
+        std::vector<int> row = igraph.get_next_vertices(vertice);
+        for (int other_vertice : row) {
+            graph[vertice].insert(other_vertice);
         }
     }
 }
 
-void SetGraph::AddEdge(int from, int to) {
-    graph_[from].insert(to);
+void SetGraph::add_edge(const int &from, const int &to) {
+    graph[from].insert(to);
 }
 
-size_t SetGraph::VerticesCount() const {
-    return graph_.size();
+int SetGraph::get_vertices_count() const {
+    return graph.size();
 }
 
-std::vector<int> SetGraph::GetNextVertices(int vertex) const {
+std::vector<int> SetGraph::get_next_vertices(const int &vertex) const {
     std::vector<int> result;
-    for (int i = 0; i < graph_.size(); ++i) {
-        if (graph_[vertex].find(i) != graph_[vertex].end()) {
-            result.push_back(i);
+    for (int child = 0; child < graph.size(); ++child) {
+        if (graph[vertex].find(child) != graph[vertex].end()) {
+            result.push_back(child);
         }
     }
     return result;
 }
 
-std::vector<int> SetGraph::GetPrevVertices(int vertex) const {
+std::vector<int> SetGraph::get_prev_vertices(const int &vertex) const {
     std::vector<int> result;
-    for (int i = 0; i < graph_.size(); ++i) {
-        if (graph_[i].find(vertex) != graph_[i].end()) {
-            result.push_back(i);
+    for (int child = 0; child < graph.size(); ++child) {
+        if (graph[child].find(vertex) != graph[child].end()) {
+            result.push_back(child);
         }
     }
     return result;

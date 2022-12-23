@@ -1,41 +1,41 @@
 #include "matrixgraph.h"
 
-MatrixGraph::MatrixGraph(size_t verticesCount)
-        : graph_(verticesCount, std::vector<int>(verticesCount, 0)) {}
+MatrixGraph::MatrixGraph(const int &vertices_count)
+: graph(vertices_count, std::vector<int>(vertices_count, 0)) {}
 
-MatrixGraph::MatrixGraph(const IGraph &graph)
-        : MatrixGraph(graph.VerticesCount()) {
-    for (int i = 0; i < graph_.size(); ++i) {
-        std::vector<int> row = graph.GetNextVertices(i);
-        for (int j : row) {
-            graph_[i][j] = 1;
+MatrixGraph::MatrixGraph(const IGraph &igraph)
+: MatrixGraph(igraph.get_vertices_count()) {
+    for (int vertice = 0; vertice < graph.size(); ++vertice) {
+        std::vector<int> row = igraph.get_next_vertices(vertice);
+        for (const int &other_vertice : row) {
+            graph[vertice][other_vertice] = 1;
         }
     }
 }
 
-void MatrixGraph::AddEdge(int from, int to) {
-    graph_[from][to] = 1;
+void MatrixGraph::add_edge(const int &from, const int &to) {
+    graph[from][to] = 1;
 }
 
-size_t MatrixGraph::VerticesCount() const {
-    return graph_.size();
+int MatrixGraph::get_vertices_count() const {
+    return graph.size();
 }
 
-std::vector<int> MatrixGraph::GetNextVertices(int vertex) const {
+std::vector<int> MatrixGraph::get_next_vertices(const int &vertex) const {
     std::vector<int> result;
-    for (int i = 0; i < graph_.size(); ++i) {
-        if (graph_[vertex][i] == 1) {
-            result.push_back(i);
+    for (int child = 0; child < graph.size(); ++child) {
+        if (graph[vertex][child] == 1) {
+            result.push_back(child);
         }
     }
     return result;
 }
 
-std::vector<int> MatrixGraph::GetPrevVertices(int vertex) const {
+std::vector<int> MatrixGraph::get_prev_vertices(const int &vertex) const {
     std::vector<int> result;
-    for (int i = 0; i < graph_.size(); ++i) {
-        if (graph_[i][vertex] == 1) {
-            result.push_back(i);
+    for (int child = 0; child < graph.size(); ++child) {
+        if (graph[child][vertex] == 1) {
+            result.push_back(child);
         }
     }
     return result;

@@ -1,5 +1,4 @@
-TARGET=./main.o
-SRC=main_3_btree.cpp
+TARGET=build/hw
 
 .PHONY: run clean
 
@@ -8,10 +7,10 @@ all: build run clean
 build: ${TARGET}
 
 clean:
-	rm ${TARGET}
+	rm -rf build
 
-${TARGET}: ${SRC}
-	g++ ${SRC} -o ${TARGET} -std=c++20 -g
+${TARGET}:
+	scripts/build.sh
 
 run: build
-	${TARGET}
+	./${TARGET}
